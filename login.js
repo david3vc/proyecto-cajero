@@ -69,7 +69,7 @@ btnLogin.addEventListener("click",function()
     
     //console.log(bandera);
     if (bandera == false) {
-        let opcion = parseInt(prompt("Ingrese opcion: \n 1. Consultar saldo \n 2. Ingresar monto \n 3. Retirar monto"));
+        let opcion = parseInt(prompt("Ingrese opcion: \n 1. Consultar saldo \n 2. Ingresar monto \n 3. Retirar monto")); 
 
         if (opcion == 1) {
             for( let i=0; i < usuarios.length;i++  )
