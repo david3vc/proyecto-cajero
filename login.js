@@ -1,3 +1,7 @@
+//guardar_localStorage();
+
+/*function guardar_localStorage(){
+}*/
 var usuarios = [
     {
         name: "Carlos",
@@ -19,14 +23,22 @@ var usuarios = [
     }
 ];
 
+//guardar las cuentas en localStorage
+localStorage.setItem("cuentas", JSON.stringify(usuarios));
+
+
+
+
 function login( correo, password )
 {
     let flagAlert = true;
     let alert = document.getElementById("liveAlert");
+    let N = JSON.parse(localStorage.getItem("cuentas"));
 
-    for( let i=0; i < usuarios.length;i++  )
+    //for( let i=0; i < usuarios.length;i++  )
+    for( let i=0; i < N.length ; i++  )
     {
-        let tmpUsuario = usuarios[i];
+        let tmpUsuario = N[i];
 
         if( (correo.toLowerCase() === tmpUsuario.usuario.toLowerCase()) 
                 && 
@@ -76,16 +88,25 @@ btnLogin.addEventListener("click",function()
     if (bandera == false) {
         let opcion = parseInt(prompt("Ingrese opcion: \n 1. Consultar saldo \n 2. Ingresar monto \n 3. Retirar monto"));
         let texto = '';
+        let cuentas = JSON.parse(localStorage.getItem("cuentas"));
 
         if (opcion == 1) {
-            for( let i=0; i < usuarios.length;i++  )
+            for( let i=0; i < cuentas.length;i++  )
             {
-                if( (usuario.toLowerCase() === usuarios[i].usuario.toLowerCase()) 
+                if( (usuario.toLowerCase() === cuentas[i].usuario.toLowerCase()) 
                         && 
-                    ( password === usuarios[i].pass ) )
+                    ( password === cuentas[i].pass ) )
                 {
-                    texto = `El saldo actual de la cuenta es: $${usuarios[i].saldo}`;
+                    /*texto = `El saldo actual de la cuenta es: $${usuarios[i].saldo}`;
+                    document.querySelector('.texto p').textContent = texto;*/
+
+                    /* con localStorage */
+                    let monto = JSON.parse(localStorage.getItem("cuentas"));
+                    texto = `El saldo actual de la cuenta es: $${monto[i].saldo}`;
                     document.querySelector('.texto p').textContent = texto;
+
+                    console.log(monto[i].saldo);
+                    console.log(typeof monto[i].saldo);
                 }
             }
         } else if (opcion == 2) {
@@ -94,19 +115,30 @@ btnLogin.addEventListener("click",function()
             let texto = '';
             let texto2 = '';
 
-            for( let i=0; i < usuarios.length;i++  )
+            for( let i=0; i < cuentas.length;i++  )
             {
-                if( (usuario.toLowerCase() === usuarios[i].usuario.toLowerCase()) 
+                if( (usuario.toLowerCase() === cuentas[i].usuario.toLowerCase()) 
                         && 
-                    ( password === usuarios[i].pass )  )
+                    ( password === cuentas[i].pass )  )
                 {
-                    if ((ingreso + usuarios[i].saldo) > 990) {
+                    if ((ingreso + cuentas[i].saldo) > 990) {
                         texto = `No se puede ingresar $${ingreso} porque excede la cantidad máxima de $990`;
                         document.querySelector('.texto p').textContent = texto;
                     } else {
-                        usuarios[i].saldo += ingreso;
+                        /*usuarios[i].saldo += ingreso;
                         nuevoSaldo = usuarios[i].saldo;
                         
+                        texto = `El monto ingresado es: $${ingreso}`;
+                        texto2 = `El nuevo saldo es: $${nuevoSaldo}`;
+                        document.querySelector('.texto p').textContent = texto;
+                        document.querySelector('.texto p:nth-child(2)').textContent = texto2;*/
+
+
+                        /* con localStorage */
+                        cuentas[i].saldo += ingreso;
+                        nuevoSaldo = cuentas[i].saldo;
+                        localStorage.setItem("cuentas", JSON.stringify(cuentas));
+
                         texto = `El monto ingresado es: $${ingreso}`;
                         texto2 = `El nuevo saldo es: $${nuevoSaldo}`;
                         document.querySelector('.texto p').textContent = texto;
