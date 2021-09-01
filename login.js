@@ -58,6 +58,11 @@ function cleanMessage()
     alert.innerText="";
 }
 
+function limpiar(){
+    document.querySelector('.texto p').textContent = '';
+    document.querySelector('.texto p:nth-child(2)').textContent = '';
+}
+
 let  btnLogin = document.getElementById("btn-login");
 let  bandera = null;
 btnLogin.addEventListener("click",function()
@@ -98,7 +103,6 @@ btnLogin.addEventListener("click",function()
                     if ((ingreso + usuarios[i].saldo) > 990) {
                         texto = `No se puede ingresar $${ingreso} porque excede la cantidad máxima de $990`;
                         document.querySelector('.texto p').textContent = texto;
-                        //console.log(`No se puede ingresar $${ingreso} porque excede la cantidad máxima de $990`);
                     } else {
                         usuarios[i].saldo += ingreso;
                         nuevoSaldo = usuarios[i].saldo;
@@ -107,8 +111,6 @@ btnLogin.addEventListener("click",function()
                         texto2 = `El nuevo saldo es: $${nuevoSaldo}`;
                         document.querySelector('.texto p').textContent = texto;
                         document.querySelector('.texto p:nth-child(2)').textContent = texto2;
-                        /*console.log(`El monto ingresado es: ${ingreso}`);
-                        console.log(`El nuevo saldo es: ${nuevoSaldo}`);*/
                     }
                 }
             }
@@ -127,11 +129,10 @@ btnLogin.addEventListener("click",function()
                     if (egreso > usuarios[i].saldo) {
                         let texto = `No dispones de ese monto en tu cuenta`;
                         document.querySelector('.texto p').textContent = texto;
-                        //console.log(`No dispones de ese monto en tu cuenta`);
                     } else if (( usuarios[i].saldo - egreso ) < 10) {
                         let texto = `No se puede retirar $${egreso} porque la cuenta no puede tener menos de $10`;
+
                         document.querySelector('.texto p').textContent = texto;
-                        //console.log(`No se puede retirar $${egreso} porque la cuenta no puede tener menos de $10`);
                     } else {
                         usuarios[i].saldo -= egreso;
                         nuevoSaldo = usuarios[i].saldo;
@@ -140,12 +141,14 @@ btnLogin.addEventListener("click",function()
                         texto2 = `El nuevo saldo es: $${nuevoSaldo}`;
                         document.querySelector('.texto p').textContent = texto;
                         document.querySelector('.texto p:nth-child(2)').textContent = texto2;
-
-                        /*console.log(`El monto retirado es: ${egreso}`);
-                        console.log(`El nuevo saldo es: ${nuevoSaldo}`);*/
                     }
                 }
             }
         }
     }
+});
+
+let  btnLimpiar = document.getElementById("btn-limpiar");
+btnLimpiar.addEventListener("click", function() {
+    limpiar();
 });
