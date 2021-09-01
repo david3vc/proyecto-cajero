@@ -69,7 +69,8 @@ btnLogin.addEventListener("click",function()
     
     //console.log(bandera);
     if (bandera == false) {
-        let opcion = parseInt(prompt("Ingrese opcion: \n 1. Consultar saldo \n 2. Ingresar monto \n 3. Retirar monto")); 
+        let opcion = parseInt(prompt("Ingrese opcion: \n 1. Consultar saldo \n 2. Ingresar monto \n 3. Retirar monto"));
+        let texto = '';
 
         if (opcion == 1) {
             for( let i=0; i < usuarios.length;i++  )
@@ -78,12 +79,15 @@ btnLogin.addEventListener("click",function()
                         && 
                     ( password === usuarios[i].pass ) )
                 {
-                    console.log(`El saldo actual de la cuenta es: ${usuarios[i].saldo}`);
+                    texto = `El saldo actual de la cuenta es: $${usuarios[i].saldo}`;
+                    document.querySelector('.texto p').textContent = texto;
                 }
             }
         } else if (opcion == 2) {
             let ingreso = parseInt(prompt("Ingrese monto: "));
             let nuevoSaldo = 0;
+            let texto = '';
+            let texto2 = '';
 
             for( let i=0; i < usuarios.length;i++  )
             {
@@ -92,19 +96,27 @@ btnLogin.addEventListener("click",function()
                     ( password === usuarios[i].pass )  )
                 {
                     if ((ingreso + usuarios[i].saldo) > 990) {
-                        console.log(`No se puede ingresar $${ingreso} porque excede la cantidad máxima de $990`);
+                        texto = `No se puede ingresar $${ingreso} porque excede la cantidad máxima de $990`;
+                        document.querySelector('.texto p').textContent = texto;
+                        //console.log(`No se puede ingresar $${ingreso} porque excede la cantidad máxima de $990`);
                     } else {
                         usuarios[i].saldo += ingreso;
                         nuevoSaldo = usuarios[i].saldo;
                         
-                        console.log(`El monto ingresado es: ${ingreso}`);
-                        console.log(`El nuevo saldo es: ${nuevoSaldo}`);
+                        texto = `El monto ingresado es: $${ingreso}`;
+                        texto2 = `El nuevo saldo es: $${nuevoSaldo}`;
+                        document.querySelector('.texto p').textContent = texto;
+                        document.querySelector('.texto p:nth-child(2)').textContent = texto2;
+                        /*console.log(`El monto ingresado es: ${ingreso}`);
+                        console.log(`El nuevo saldo es: ${nuevoSaldo}`);*/
                     }
                 }
             }
         } else if (opcion == 3) {
             let egreso = parseInt(prompt("Ingrese monto: "));
             let nuevoSaldo = 0;
+            let texto = '';
+            let texto2 = '';
 
             for( let i=0; i < usuarios.length;i++  )
             {
@@ -113,14 +125,24 @@ btnLogin.addEventListener("click",function()
                     ( password === usuarios[i].pass )  )
                 {
                     if (egreso > usuarios[i].saldo) {
-                        console.log(`No dispones de ese monto en tu cuenta`);
+                        let texto = `No dispones de ese monto en tu cuenta`;
+                        document.querySelector('.texto p').textContent = texto;
+                        //console.log(`No dispones de ese monto en tu cuenta`);
                     } else if (( usuarios[i].saldo - egreso ) < 10) {
-                        console.log(`No se puede retirar $${egreso} porque la cuenta no puede tener menos de $10`);
+                        let texto = `No se puede retirar $${egreso} porque la cuenta no puede tener menos de $10`;
+                        document.querySelector('.texto p').textContent = texto;
+                        //console.log(`No se puede retirar $${egreso} porque la cuenta no puede tener menos de $10`);
                     } else {
                         usuarios[i].saldo -= egreso;
                         nuevoSaldo = usuarios[i].saldo;
-                        console.log(`El monto retirado es: ${egreso}`);
-                        console.log(`El nuevo saldo es: ${nuevoSaldo}`);
+
+                        texto = `El monto retirado es: $${egreso}`;
+                        texto2 = `El nuevo saldo es: $${nuevoSaldo}`;
+                        document.querySelector('.texto p').textContent = texto;
+                        document.querySelector('.texto p:nth-child(2)').textContent = texto2;
+
+                        /*console.log(`El monto retirado es: ${egreso}`);
+                        console.log(`El nuevo saldo es: ${nuevoSaldo}`);*/
                     }
                 }
             }
