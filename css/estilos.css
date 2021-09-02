@@ -49,7 +49,7 @@ body {
 }
 
 .content {
-    max-width: 600px;
+    max-width: 600px!important;
     margin: 0 auto;
     display: block;
     padding: 20px;
@@ -265,9 +265,19 @@ a {
 }
 
 .recibo {
-    /*display: none;*/
-    visibility: hidden;
+    /*visibility: hidden;*/
+    display: none;
 }
+
+.recibo .voucher {
+    display: none;
+}
+
+.movimientos {
+    display: none;
+    /*visibility: hidden;*/
+}
+
 /*
 .total td:nth-child(2) {
     width: 80%;

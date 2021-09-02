@@ -67,7 +67,7 @@ if ( datos != null ) {
         
         //console.log(bandera);
         if (bandera == false) {
-            let opcion = parseInt(prompt("Ingrese opcion: \n 1. Consultar saldo \n 2. Ingresar monto \n 3. Retirar monto \n 4. Transferir dinero \n 5. Historial de movimientos"));
+            let opcion = parseInt(prompt("Ingrese opcion: \n 1. Consultar saldo \n 2. Ingresar monto \n 3. Retirar monto \n 4. Transferir dinero \n 5. Historial de movimientos \n 6. Crear cuenta"));
             let texto = '';
             let cuentas = JSON.parse(localStorage.getItem("cuentas"));
             //console.log(cuentas[2].movimientos[2].length);
@@ -89,8 +89,19 @@ if ( datos != null ) {
                         /*texto = `El saldo actual de la cuenta es: $${monto[i].saldo}`;
                         document.querySelector('.texto p').textContent = texto;*/
     
-                        let recibo = document.querySelector('.recibo');
+                        /*let recibo = document.querySelector('.recibo');
                         recibo.style.visibility = 'visible';
+                        let voucher = document.querySelector('.recibo .voucher');
+                        voucher.style.visibility = 'visible';
+                        let tbl_movimientos = document.querySelector('.movimientos');
+                        tbl_movimientos.style.visibility = 'hidden';*/
+
+                        let recibo = document.querySelector('.recibo');
+                        recibo.style.display = 'table';
+                        let voucher = document.querySelector('.recibo .voucher');
+                        voucher.style.display = 'table';
+                        let tbl_movimientos = document.querySelector('.movimientos');
+                        tbl_movimientos.style.display = 'none';
     
                         document.querySelector('.invoice span').textContent = `${cuentas[i].name}`;
                         
@@ -150,8 +161,15 @@ if ( datos != null ) {
                             document.querySelector('.texto p:nth-child(2)').textContent = texto2;*/
     
     
+                            /*let recibo = document.querySelector('.recibo');
+                            recibo.style.visibility = 'visible';*/
+
                             let recibo = document.querySelector('.recibo');
-                            recibo.style.visibility = 'visible';
+                            recibo.style.display = 'table';
+                            let voucher = document.querySelector('.recibo .voucher');
+                            voucher.style.display = 'table';
+                            let tbl_movimientos = document.querySelector('.movimientos');
+                            tbl_movimientos.style.display = 'none';
     
                             document.querySelector('.invoice span').textContent = `${cuentas[i].name}`;
     
@@ -217,8 +235,14 @@ if ( datos != null ) {
                             document.querySelector('.texto p:nth-child(2)').textContent = texto2;*/
     
     
+                            /*let recibo = document.querySelector('.recibo');
+                            recibo.style.visibility = 'visible';*/
                             let recibo = document.querySelector('.recibo');
-                            recibo.style.visibility = 'visible';
+                            recibo.style.display = 'table';
+                            let voucher = document.querySelector('.recibo .voucher');
+                            voucher.style.display = 'table';
+                            let tbl_movimientos = document.querySelector('.movimientos');
+                            tbl_movimientos.style.display = 'none';
     
                             document.querySelector('.invoice span').textContent = `${cuentas[i].name}`;
     
@@ -253,7 +277,29 @@ if ( datos != null ) {
                     }
                 }
             } else if (opcion == 4) {
-                let cuentaElegida = parseInt(prompt(`Seleccione cuenta: \n 1. ${cuentas[0].name} \n 2. ${cuentas[1].name} \n 3. ${cuentas[2].name}`));
+                let nombres = [];
+                let cuentaActual;
+                let cuentaElegida;
+                for (let i = 0; i < cuentas.length; i++) {
+                    nombres[i] = cuentas[i].name;
+                }
+                for (let i = 0; i < cuentas.length; i++) {
+                    if( (usuario.toLowerCase() === cuentas[i].usuario.toLowerCase()) 
+                    && 
+                    ( password === cuentas[i].pass )  ) {
+                        if (cuentas[i].name == nombres[i]) {
+                            cuentaActual = nombres[i];
+                        }
+                    }
+                }
+                let msje = '';
+                for (let i = 0; i < nombres.length; i++) {
+                    if (cuentaActual != nombres[i]) {
+                        msje += `${i+1}. ${nombres[i]} \n`;
+                    }
+                }
+                //cuentaElegida = parseInt(prompt(`Seleccione cuenta: \n 1. ${cuentas[0].name} \n 2. ${cuentas[1].name} \n 3. ${cuentas[2].name}`));
+                cuentaElegida = parseInt(prompt(`Seleccione cuenta: \n${msje}`));
                 let monto = parseInt(prompt('Ingrese monto a transferir: '));
                 
                 
@@ -271,8 +317,15 @@ if ( datos != null ) {
                         nuevoSaldo = cuentas[i].saldo;
                         localStorage.setItem("cuentas", JSON.stringify(cuentas));
     
+                        /*let recibo = document.querySelector('.recibo');
+                        recibo.style.visibility = 'visible';*/
+
                         let recibo = document.querySelector('.recibo');
-                        recibo.style.visibility = 'visible';
+                        recibo.style.display = 'table';
+                        let voucher = document.querySelector('.recibo .voucher');
+                        voucher.style.display = 'table';
+                        let tbl_movimientos = document.querySelector('.movimientos');
+                        tbl_movimientos.style.display = 'none';
     
                         document.querySelector('.invoice span').textContent = `${cuentas[i].name}`;
     
@@ -318,10 +371,38 @@ if ( datos != null ) {
                     ( password === cuentas[i].pass )  )
                     {
                         console.log(`${cuentas[i].movimientos.length}`);
+
+                        /*let tbl_movimientos = document.querySelector('.movimientos');
+                        tbl_movimientos.style.visibility = 'visible';
+
+                        let tbl_recibo = document.querySelector('.voucher');
+                        tbl_recibo.style.visibility = 'hidden';*/
+
+                        /*let tbl_movimientos = document.querySelector('.movimientos');
+                        tbl_movimientos.style.display = 'contents';
+
+                        let tbl_recibo = document.querySelector('.voucher');
+                        tbl_recibo.style.display = 'none';*/
+
+                        let recibo = document.querySelector('.recibo');
+                        recibo.style.display = 'table';
+                        let voucher = document.querySelector('.recibo .voucher');
+                        voucher.style.display = 'none';
+                        let tbl_movimientos = document.querySelector('.movimientos');
+                        tbl_movimientos.style.display = 'table';
+
+                        const elemento_tbody = document.querySelector('.movimientos tbody');
+                        
+
                         for (let j=0; j < cuentas[i].movimientos.length; j++) {
-                            
+                            // ************
+                            const elemento_tr  = document.createElement('tr');
+                            const elemento_tr1  = document.createElement('tr');
+                            const elemento_tr2  = document.createElement('tr');
+                            //elemento_tr.remove();
+                            //elemento_tr1.remove();
+                            //elemento_tr2.remove();
                             if (cuentas[i].movimientos[j]._descripcion == 'Ingreso: ') {
-                                
                                 /* Crear elementos HTML */
                                 // Creamos el 1er td
                                 const elemento_td1 = document.createElement('td');
@@ -331,6 +412,15 @@ if ( datos != null ) {
                                 const elemento_td2 = document.createElement('td');
                                 elemento_td2.textContent = cuentas[i].movimientos[j]._monto;
                                 elemento_td2.classList.add('alignright');
+
+                                // Creamos el tr que contendrá a los td
+                                //const elemento_tr  = document.createElement('tr');
+                                elemento_tr.appendChild(elemento_td1);
+                                elemento_tr.appendChild(elemento_td2);
+
+                                // Insertamos los elementos html creados al tbody
+                                //const elemento_tbody = document.querySelector('.movimientos tbody');
+                                elemento_tbody.appendChild(elemento_tr);
 
                             } else if (cuentas[i].movimientos[j]._descripcion == 'Egreso: ') {
                                 /* Crear elementos HTML */
@@ -343,8 +433,15 @@ if ( datos != null ) {
                                 elemento_td2.textContent = cuentas[i].movimientos[j]._monto;
                                 elemento_td2.classList.add('alignright');
 
-                            } else if (cuentas[i].movimientos[j]._descripcion == 'transferencia') {
+                                // Creamos el tr que contendrá a los td
+                                //const elemento_tr  = document.createElement('tr');
+                                elemento_tr.appendChild(elemento_td1);
+                                elemento_tr.appendChild(elemento_td2);
 
+                                // Insertamos los elementos html creados al tbody
+                                elemento_tbody.appendChild(elemento_tr);
+
+                            } else if (cuentas[i].movimientos[j]._descripcion == 'transferencia') {
                                 /* Crear elementos HTML */
                                 // Creamos el 1er td
                                 const elemento_td1 = document.createElement('td');
@@ -363,6 +460,18 @@ if ( datos != null ) {
                                 const elemento_td4 = document.createElement('td');
                                 elemento_td4.textContent = cuentas[i].movimientos[j]._beneficiario;
                                 elemento_td4.classList.add('alignright');
+
+                                // Creamos el tr que contendrá a los td
+                                //const elemento_tr1  = document.createElement('tr');
+                                elemento_tr1.appendChild(elemento_td1);
+                                elemento_tr1.appendChild(elemento_td2);
+                                //const elemento_tr2  = document.createElement('tr');
+                                elemento_tr2.appendChild(elemento_td3);
+                                elemento_tr2.appendChild(elemento_td4);
+
+                                // Insertamos los elementos html creados al tbody
+                                elemento_tbody.appendChild(elemento_tr1);
+                                elemento_tbody.appendChild(elemento_tr2);
                             }
 
 
@@ -373,6 +482,22 @@ if ( datos != null ) {
                 }
                 
 
+            } else if (opcion == 6) {
+                let nombre = prompt('Ingrese nombre: ');
+                let _usuario = prompt('Ingrese usuario: ');
+                let contraseña = prompt('Ingrese contraseña: ');
+                let _saldo = parseInt(prompt('Ingrese saldo: '));
+
+                let obj_cuenta = {
+                    name: nombre,
+                    saldo: _saldo,
+                    usuario: _usuario,
+                    pass: contraseña,
+                    movimientos: []
+                }
+
+                cuentas.push(obj_cuenta);
+                localStorage.setItem("cuentas", JSON.stringify(cuentas));
             }
     
             console.log(array_movimientos);
@@ -389,11 +514,11 @@ if ( datos != null ) {
 } else {
     guardar_localStorage();
 }
-    
+
 
 function guardar_localStorage(){
     var usuarios = [
-        {
+        /*{
             name: "Carlos",
             saldo: 200,
             usuario:"cburguenog@gmail.com",
@@ -406,7 +531,7 @@ function guardar_localStorage(){
             usuario:"jorge.mendoza@gmail.com",
             pass:"jorge123",
             movimientos: []
-        },
+        },*/
         {
             name:"David Vera",
             saldo: 445,
