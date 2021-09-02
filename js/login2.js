@@ -70,6 +70,7 @@ if ( datos != null ) {
             let opcion = parseInt(prompt("Ingrese opcion: \n 1. Consultar saldo \n 2. Ingresar monto \n 3. Retirar monto \n 4. Transferir dinero \n 5. Historial de movimientos"));
             let texto = '';
             let cuentas = JSON.parse(localStorage.getItem("cuentas"));
+            //console.log(cuentas[2].movimientos[2].length);
     
             //let array_movimientos = [];
     
@@ -173,9 +174,14 @@ if ( datos != null ) {
     
                             array_movimientos.push(`Ingreso: $ ${ingreso}`);
                             let obj = {
-                                _ingreso: `Ingreso: $ ${ingreso}`,
+                                _descripcion : 'Ingreso: ',
+                                _monto       : `$ ${ingreso}`
                             };
                             array_movimientos2.push(obj);
+
+                            // Agregar los movimientos al objeto y actualizar el localStorage
+                            cuentas[i].movimientos.push(obj);
+                            localStorage.setItem("cuentas", JSON.stringify(cuentas));
                         }
                     }
                 }
@@ -235,9 +241,14 @@ if ( datos != null ) {
     
                             array_movimientos.push(`Egreso: -$ ${egreso}`);
                             let obj = {
-                                _egreso: `Egreso: -$ ${egreso}`,
+                                _descripcion : 'Egreso: ',
+                                _monto       : `-$ ${egreso}`
                             };
                             array_movimientos2.push(obj);
+
+                            // Agregar los movimientos al objeto y actualizar el localStorage
+                            cuentas[i].movimientos.push(obj);
+                            localStorage.setItem("cuentas", JSON.stringify(cuentas));
                         }
                     }
                 }
@@ -286,18 +297,87 @@ if ( datos != null ) {
                         array_movimientos.push(`Beneficiario: ${cuentas[cuentaElegida-1].name}`);
 
                         let obj = {
-                            _importe      :  `Importe transferido: $ ${monto}`,
-                            _beneficiario :  `Beneficiario: ${cuentas[cuentaElegida-1].name}`,
+                            _descripcion  : 'transferencia',
+                            _text01       : 'Importe transferido: ',
+                            _monto        : `$ ${monto}`,
+                            _text02       : 'Beneficiario: ',
+                            _beneficiario : `${cuentas[cuentaElegida-1].name}`,
                         };
                         array_movimientos2.push(obj);
+
+                        // Agregar los movimientos al objeto y actualizar el localStorage
+                        cuentas[i].movimientos.push(obj);
+                        localStorage.setItem("cuentas", JSON.stringify(cuentas));
                     }
                 }
             } else if (opcion == 5) {
+
+                for( let i=0; i < cuentas.length; i++  ) {
+                    if( (usuario.toLowerCase() === cuentas[i].usuario.toLowerCase()) 
+                    && 
+                    ( password === cuentas[i].pass )  )
+                    {
+                        console.log(`${cuentas[i].movimientos.length}`);
+                        for (let j=0; j < cuentas[i].movimientos.length; j++) {
+                            
+                            if (cuentas[i].movimientos[j]._descripcion == 'Ingreso: ') {
+                                
+                                /* Crear elementos HTML */
+                                // Creamos el 1er td
+                                const elemento_td1 = document.createElement('td');
+                                elemento_td1.textContent = cuentas[i].movimientos[j]._descripcion;
                 
+                                // Creamos el 2do td
+                                const elemento_td2 = document.createElement('td');
+                                elemento_td2.textContent = cuentas[i].movimientos[j]._monto;
+                                elemento_td2.classList.add('alignright');
+
+                            } else if (cuentas[i].movimientos[j]._descripcion == 'Egreso: ') {
+                                /* Crear elementos HTML */
+                                // Creamos el 1er td
+                                const elemento_td1 = document.createElement('td');
+                                elemento_td1.textContent = cuentas[i].movimientos[j]._descripcion;
+                
+                                // Creamos el 2do td
+                                const elemento_td2 = document.createElement('td');
+                                elemento_td2.textContent = cuentas[i].movimientos[j]._monto;
+                                elemento_td2.classList.add('alignright');
+
+                            } else if (cuentas[i].movimientos[j]._descripcion == 'transferencia') {
+
+                                /* Crear elementos HTML */
+                                // Creamos el 1er td
+                                const elemento_td1 = document.createElement('td');
+                                elemento_td1.textContent = cuentas[i].movimientos[j]._text01;
+                
+                                // Creamos el 2do td
+                                const elemento_td2 = document.createElement('td');
+                                elemento_td2.textContent = cuentas[i].movimientos[j]._monto;
+                                elemento_td2.classList.add('alignright');
+
+                                // Creamos el 3er td
+                                const elemento_td3 = document.createElement('td');
+                                elemento_td3.textContent = cuentas[i].movimientos[j]._text02;
+                
+                                // Creamos el 4to td
+                                const elemento_td4 = document.createElement('td');
+                                elemento_td4.textContent = cuentas[i].movimientos[j]._beneficiario;
+                                elemento_td4.classList.add('alignright');
+                            }
+
+
+                            //console.log(`${cuentas[i].movimientos[j].length}`);
+                        }
+
+                    }
+                }
+                
+
             }
     
             console.log(array_movimientos);
             console.log(array_movimientos2);
+            
         }
         //console.log(array_movimientos);
     });
@@ -309,7 +389,7 @@ if ( datos != null ) {
 } else {
     guardar_localStorage();
 }
-
+    
 
 function guardar_localStorage(){
     var usuarios = [
@@ -317,19 +397,22 @@ function guardar_localStorage(){
             name: "Carlos",
             saldo: 200,
             usuario:"cburguenog@gmail.com",
-            pass:"contrasena123"
+            pass:"contrasena123",
+            movimientos: []
         },
         {
             name:"Jorge",
             saldo: 320,
             usuario:"jorge.mendoza@gmail.com",
-            pass:"jorge123"
+            pass:"jorge123",
+            movimientos: []
         },
         {
             name:"David Vera",
             saldo: 445,
             usuario:"dverac@gmail.com",
-            pass:"123"
+            pass:"123",
+            movimientos: []
         }
     ];
     //guardar las cuentas en localStorage
